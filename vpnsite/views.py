@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def vpnsite(request):
+    return render(request, 'vpnsite.html')
