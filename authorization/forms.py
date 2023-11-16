@@ -8,7 +8,7 @@ class NativeUserCreationForm(UserCreationForm):
     username = CharField(
         label="Username",
         widget=TextInput(
-            attrs={'class': "field"}
+            attrs={'class': "field", 'autofocus': True}
         )
     )
 
@@ -42,7 +42,7 @@ class NativeAuthenticationForm(AuthenticationForm):
     username = CharField(
         label="Username",
         widget=TextInput(
-            attrs={'class': "field"}
+            attrs={'class': "field", 'autofocus': True}
         )
     )
 

@@ -1,6 +1,6 @@
 
 .card-header{
-    background-color: white;
+    background: #242425;
 }
 
 .card-footer{
@@ -24,25 +24,32 @@
 #log-in{
     display: block;
     text-align: center;
+
+    color: white;
 }
 
 #registration-window{
 
 }
 
-
-
 .field{
     display: block;
     width: 100%
 }
 
-button{
-    border-width: 1px;
+.btn{
+    background-color: #242425;
+    box-shadow: 0.5px 0.5px black;
+
+    color: white;
 }
 
-button:hover{
+.btn:hover{
+    background-color: #555557;
 
+    color: white;
+
+    box-shadow: none;
 }
 
 li{
