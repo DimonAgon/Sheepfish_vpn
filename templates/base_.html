@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +15,25 @@
         {% block header %} {% endblock %}
     </div>
 
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger" role="alert">
+
+            {% elif message.tags == 'success'%}
+                <div class="alert alert-success" role="alert">
+
+            {% else %}
+                <div class="alert alert-primary" role="alert">
+
+            {% endif %}
+                {{ message }}
+                </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="container" id="body-container">
         {% block content %} {% endblock %}
     </div>
-
-    {% include 'included/_authorization_window.html' %}
 </body>
 </html>
