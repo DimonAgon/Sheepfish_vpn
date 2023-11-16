@@ -1,9 +1,26 @@
 
-body{}
+body{
+    font-family: 'Roboto',Arial, sans-serif;
+}
 
 #navbar-main{}
 
-#header-container{}
+#header-container{
+    background: linear-gradient(131.08deg, #555557 -16.61%, rgba(0, 0, 0, 0) 97.4%), #000000;
+}
+
+.logo-text{
+    position: relative;
+    top: 19px;
+
+    color: #FFFFFF;
+
+    font-size: 35px;
+
+    border-style: solid;
+    border-width: 3.2px;
+    border-color: #FFFFFF;
+}
 
 #body-container{}
 
