@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from vpnsite.views import vpnsite, register, authorize
+from vpnsite.views import vpnsite
+from authorization.views import register, authorize
 
 urlpatterns = [
     path('admin/', admin.site.urls),
