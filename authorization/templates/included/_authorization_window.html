@@ -1,0 +1,43 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/window.css' %}">
+
+
+<section>
+    {% with authorization_type_val=authorization_type.value %}
+    <form method="post">
+    <div class="card window" id="registration-window">
+        <div class="card-header">
+            <span id="log-in">
+                {% if authorization_type_val == 'AUTHORIZATION' %}
+                    Log in
+                {% elif authorization_type_val == 'REGISTRATION' %}
+                    Sign up
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+
+        <div class="card-footer">
+            <button class="button" type="submit">
+                {% if authorization_type_val == 'AUTHORIZATION' %}
+                    Authorize
+                {% elif authorization_type_val == 'REGISTRATION' %}
+                    Register
+                {% endif %}
+            </button>
+
+            {% if authorization_type_val == 'AUTHORIZATION' %}
+                <span>Don't have an account? <a href="{% url 'registration' %}">sign up</a></span>
+            {% elif authorization_type_val == 'REGISTRATION' %}
+                <span>Already have an account? <a href="{% url 'authorization' %}">log in</a></span>
+            {% endif %}
+        </div>
+    </div>
+    </form>
+    {% endwith %}
+</section>

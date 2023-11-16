@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vpnsite.apps.VpnsiteConfig'
+    'vpnsite.apps.VpnsiteConfig',
+    'authorization.apps.AuthorizationConfig'
 ]
 
 MIDDLEWARE = [

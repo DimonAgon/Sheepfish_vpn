@@ -1,0 +1,50 @@
+
+.card-header{
+    background-color: white;
+}
+
+.card-footer{
+    background-color: white;
+    border-top-style: none;
+}
+
+.window{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 370.5px;
+}
+
+#authorization-window{
+
+}
+
+#log-in{
+    display: block;
+    text-align: center;
+}
+
+#registration-window{
+
+}
+
+
+
+.field{
+    display: block;
+    width: 100%
+}
+
+button{
+    border-width: 1px;
+}
+
+button:hover{
+
+}
+
+li{
+    color: red;
+}
