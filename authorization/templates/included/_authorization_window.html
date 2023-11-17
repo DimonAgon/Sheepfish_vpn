@@ -31,11 +31,13 @@
                 {% endif %}
             </button>
 
+                <span id="suggestion">
             {% if authorization_type_val == 'AUTHORIZATION' %}
-                <span>Don't have an account? <a href="{% url 'registration' %}">sign up</a></span>
+                Don't have an account? <a href="{% url 'registration' %}">sign up</a>
             {% elif authorization_type_val == 'REGISTRATION' %}
-                <span>Already have an account? <a href="{% url 'authorization' %}">log in</a></span>
+                Already have an account? <a href="{% url 'authorization' %}">log in</a>
             {% endif %}
+                </span>
         </div>
     </div>
     </form>

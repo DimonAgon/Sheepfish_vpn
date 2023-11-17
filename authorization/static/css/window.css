@@ -28,6 +28,12 @@
     color: white;
 }
 
+#suggestion{
+    position: relative;
+    top: 5px;
+    float: right;
+}
+
 #registration-window{
 
 }
