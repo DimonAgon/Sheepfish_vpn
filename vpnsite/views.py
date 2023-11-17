@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def vpnsite(request):
-    return render(request, 'vpnsite.html')
+    if request.user.is_authenticated:
+        return render(request, 'vpnsite.html')
+
+    else:
+        return redirect('authorization')
