@@ -50,3 +50,7 @@ def authorize(request):
     else:
         form = NativeAuthenticationForm()
     return render(request, 'authorization_window.html', context={'form': form, 'authorization_type': Authorization_type.AUTHORIZATION})
+
+def log_out(request):
+    logout(request)
+    return redirect('authorization')
