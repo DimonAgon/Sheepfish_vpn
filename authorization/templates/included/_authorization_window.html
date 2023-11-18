@@ -6,7 +6,7 @@
 <section>
     {% with authorization_type_val=authorization_type.value %}
     <form method="post">
-    <div class="card window" id="registration-window">
+    <div class="card window" id="registration-window"> {# TODO: remove id #}
         <div class="card-header">
             <span id="log-in">
                 {% if authorization_type_val == 'AUTHORIZATION' %}
