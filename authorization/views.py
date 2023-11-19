@@ -2,17 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
 
 from authorization.forms import NativeUserCreationForm, NativeAuthenticationForm
 from authorization.infrastructure.enums import *
 from authorization.static_text.static_text import *
 
 from ipware import get_client_ip
-
-
-def vpnsite(request):
-    return render(request, 'vpnsite.html')
 
 
 def register(request):
@@ -50,3 +45,8 @@ def authorize(request):
     else:
         form = NativeAuthenticationForm()
     return render(request, 'authorization_window.html', context={'form': form, 'authorization_type': Authorization_type.AUTHORIZATION})
+
+
+def log_out(request):
+    logout(request)
+    return redirect('authorization')

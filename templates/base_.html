@@ -11,7 +11,13 @@
 </head>
 
 <body>
-    {% block nav %}<div class="navbar" id="navbar-main"></div>{% endblock %}
+    {% block nav %}
+        <div class="navbar" id="navbar-main">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">log out</a>
+            {% endif %}
+        </div>
+    {% endblock %}
 
     <div class="container" id="header-container">
         {% block header %}
