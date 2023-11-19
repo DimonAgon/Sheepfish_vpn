@@ -1,0 +1,14 @@
+
+#authorization-window{
+    width: 370.5px;
+}
+
+#suggestion{
+    position: relative;
+    top: 5px;
+    float: right;
+}
+
+#authorization-button{
+    margin-right: 5px;
+}
