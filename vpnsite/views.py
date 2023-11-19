@@ -4,20 +4,19 @@ from django.contrib.auth.models import User
 
 from vpnsite.models import Statistics, Site
 from vpnsite.forms import AddSiteForm
+from authorization.decorators import redirect_unauthorized_users
 
 
+@redirect_unauthorized_users
 def vpnsite(request):
-    if request.user.is_authenticated:
-        user_object = User.objects.get(username=request.user)
-        statistics = Statistics.objects.filter(user=user_object)
-        context = {'user': user_object,
-                   'statistics': statistics}
-        return render(request, 'vpnsite.html', context=context)
-
-    else:
-        return redirect('authorization')
+    user_object = User.objects.get(username=request.user)
+    statistics = Statistics.objects.filter(user=user_object)
+    context = {'user': user_object,
+               'statistics': statistics}
+    return render(request, 'vpnsite.html', context=context)
 
 
+@redirect_unauthorized_users
 def add_site(request):
     if request.method == 'POST':
         user_object = User.objects.get(username=request.user)
