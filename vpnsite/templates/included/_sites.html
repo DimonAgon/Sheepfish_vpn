@@ -12,7 +12,7 @@
     </div>
 
     <div id="sites-body">
-        {% for statistics_unit in statistics %}
+        {% for statistics_unit in statistics %} {# TODO: consider using statitics for getting site unsafe #}
             <div class="site-statistics">
                 {% include 'included/sites/_statistics.html' %}
                 <div class="site">
