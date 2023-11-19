@@ -1,14 +1,14 @@
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/window.css' %}">
+<link rel="stylesheet" href="{% static 'css/authorization_window.css' %}">
 
 
 <section>
     {% with authorization_type_val=authorization_type.value %}
     <form method="post">
-    <div class="card window" id="registration-window">
+    <div class="card window authorization-window" id="registration-window"> {# TODO: remove id #}
         <div class="card-header">
-            <span id="log-in">
+            <span class="card-title">
                 {% if authorization_type_val == 'AUTHORIZATION' %}
                     Log in
                 {% elif authorization_type_val == 'REGISTRATION' %}

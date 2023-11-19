@@ -24,3 +24,53 @@ body{
 
 #body-container{}
 
+.card-header{
+    background: #242425;
+}
+
+.card-title{
+    display: block;
+    text-align: center;
+
+    color: white;
+}
+
+.card-footer{
+    background-color: white;
+    border-top-style: none;
+}
+
+.window{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn{
+    background-color: #242425;
+    box-shadow: 0.5px 0.5px black;
+
+    color: white;
+}
+
+.btn:hover{
+    background-color: #555557;
+
+    color: white;
+
+    box-shadow: none;
+}
+
+
+.field{
+    display: block;
+    width: 100%;
+
+    margin-top: 0.5px;
+}
+
+li{
+    color: red;
+}
+
