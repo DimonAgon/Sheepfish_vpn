@@ -1,4 +1,13 @@
 
-.statistics{
-    display: block;
+#statistics{
+    display: inline-block;
+    width: 66%;
+}
+
+.statistics-piece{
+    display: inline-block;
+}
+
+#volume{
+    float: right;
 }

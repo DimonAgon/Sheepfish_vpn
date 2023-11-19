@@ -12,9 +12,13 @@
     </div>
 
     <div id="sites-body">
-        {% for site in sites %}
-            <div class="site">
-                {{ site.name }}::<a href="{{ site.url }}">{{ site.url }}</a>
+        {% for statistics_unit in statistics %}
+            <div class="site-statistics">
+                {% include 'included/sites/_statistics.html' %}
+                <div class="site">
+                    {{ statistics_unit.site.name }}:
+                    :{% with url=statistics_unit.site.url %}<a href="{{ url }}">{{ url }}</a>{% endwith %}
+                </div>
             </div>
         {% endfor %}
     </div>

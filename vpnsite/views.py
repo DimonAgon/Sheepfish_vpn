@@ -9,11 +9,9 @@ from vpnsite.forms import AddSiteForm
 def vpnsite(request):
     if request.user.is_authenticated:
         user_object = User.objects.get(username=request.user)
-        statistics, __ = Statistics.objects.get_or_create(user=user_object)
-        sites = Site.objects.filter(user=user_object)
+        statistics = Statistics.objects.filter(user=user_object)
         context = {'user': user_object,
-                   'statistics': statistics,
-                   'sites': sites}
+                   'statistics': statistics}
         return render(request, 'vpnsite.html', context=context)
 
     else:
@@ -27,6 +25,7 @@ def add_site(request):
         if form.is_valid():
             new_site = Site.objects.create(**form.cleaned_data, user=user_object)
             new_site.save()
+            Statistics.objects.create(user=user_object, site=new_site)
             return redirect('vpnsite')
 
     else:

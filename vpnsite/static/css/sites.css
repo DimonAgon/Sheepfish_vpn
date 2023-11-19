@@ -6,7 +6,8 @@
 }
 
 #sites-header{
-    margin-right: 2.2%;
+    width: 100%;
+    padding-right: 2.2%;
 
     font-size: 23px;
     text-align: right;
@@ -14,12 +15,14 @@
 
 #sites-body{
     display: block;
-
-    text-align: right;
 }
 
 .site{
-    display: block;
+    display: inline-block;
+
+    width: 33%;
+
+    text-align: right;
 }
 
 #add-site-button{
