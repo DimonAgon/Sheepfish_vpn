@@ -1,0 +1,21 @@
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/sites.css' %}">
+
+<div id="sites">
+    <div id="sites-header">
+        your sites
+        <button class="button btn" id="add-site-button" onclick="location.href='{% url 'addsite' %}'" type="button">
+            +
+        </button>
+    </div>
+
+    <div id="sites-body">
+        {% for site in sites %}
+            <div class="site">
+                {{ site.name }}::<a href="{{ site.url }}">{{ site.url }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>

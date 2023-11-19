@@ -1,0 +1,33 @@
+
+#sites{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#sites-header{
+    margin-right: 2.2%;
+
+    font-size: 23px;
+    text-align: right;
+}
+
+#sites-body{
+    display: block;
+
+    text-align: right;
+}
+
+.site{
+    display: block;
+}
+
+#add-site-button{
+    height: 22px;
+    width: 25px;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+}

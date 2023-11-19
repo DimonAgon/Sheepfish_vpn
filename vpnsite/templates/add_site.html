@@ -1,0 +1,30 @@
+
+{% extends 'base_.html' %}
+
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/add_site_window.css' %}">
+
+    <form method="post">
+    <div class="card window" id="add-site-window">
+        <div class="card-header">
+            <span class="card-title">
+                New site
+            </span>
+        </div>
+
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+
+        <div class="card-footer">
+            <button class="btn button" type="submit">
+                Add
+            </button>
+        </div>
+    </div>
+    </form>
+{% endblock %}
