@@ -10,7 +10,7 @@ class BaseUserData(models.Model):
 
 
 class Site(BaseUserData):
-    url = models.URLField(verbose_name="site url")
+    url = models.CharField(verbose_name="site url", max_length=2048)
     name = models.CharField(verbose_name="site name", max_length=360)
 
 

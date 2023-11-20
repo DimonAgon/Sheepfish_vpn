@@ -5,7 +5,7 @@ from vpnsite.models import Site
 
 
 class AddSiteForm(forms.Form):
-    url = forms.URLField(
+    url = forms.CharField(
         label="url",
         widget=forms.URLInput(
             attrs={'class': "field", 'autofocus': True}

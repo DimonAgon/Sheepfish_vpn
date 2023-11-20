@@ -2,17 +2,31 @@ import sys
 from functools import wraps
 from vpnsite.models import Statistics, Site
 
-def statistics_control(view):
+from sheepfish_vpn import urls
+
+
+def pass_pure_site_url(view):
 
     @wraps(view)
     def wrap(request, *args, **kwargs):
         path = request.path
+        site_url = path.replace(urls.on_vpn_site_visit_url, "", 1).replace("/", "", 1)
 
-        statistics = Statistics.objects.get(site=Site.objects.get(url=path))
+        return view(request, site_url, *args, **kwargs)
+
+    return wrap
+
+
+def statistics_control(view):
+
+    @wraps(view)
+    def wrap(request, site_url, *args, **kwargs):
+        site = Site.objects.get(url=site_url)
+        statistics = Statistics.objects.get(site=site)
         statistics.transitions += 1
         statistics.volume += sys.getsizeof(request)
 
-        response = view(request, *args, **kwargs)
+        response = view(request, site_url)
 
         statistics.volume += sys.getsizeof(response)
 
@@ -21,3 +35,4 @@ def statistics_control(view):
         return response
 
     return wrap
+
