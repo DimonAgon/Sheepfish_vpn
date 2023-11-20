@@ -10,7 +10,7 @@ class BaseUserData(models.Model):
 
 
 class Site(BaseUserData):
-    url = models.CharField(verbose_name="site url", max_length=2048)
+    url = models.CharField(verbose_name="site url", max_length=2048) #TODO: change to URLfield, configure localhost url checking
     name = models.CharField(verbose_name="site name", max_length=360)
 
 
