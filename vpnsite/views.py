@@ -6,6 +6,9 @@ from vpnsite.models import Statistics, Site
 from vpnsite.forms import AddSiteForm
 from authorization.decorators import redirect_unauthorized_users
 
+import requests
+from django.http import HttpResponse
+
 
 @redirect_unauthorized_users
 def vpnsite(request):
@@ -30,3 +33,17 @@ def add_site(request):
     else:
         form = AddSiteForm()
         return render(request, 'add_site.html', context={'form': form})
+
+def site(request, site_url):
+    response = requests.get(site_url)
+
+    http_response = HttpResponse(
+        content=response.content,
+        status=response.status_code,
+        content_type=response.headers['Content-Type']
+    )
+
+    return http_response
+
+def external_site(request, site_url):
+    return redirect(site_url)

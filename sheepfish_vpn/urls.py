@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from vpnsite.views import vpnsite, add_site
+from vpnsite.views import vpnsite, add_site, site, external_site
 from authorization.views import register, authorize, log_out
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpnsite/', vpnsite, name='vpnsite'),
+    path('vpnsite/site/localhost/<path:site_url>', site),
+    path('vpnsite/site/<path:site_url>', external_site),
     path('addsite', add_site, name='addsite'),
     path('registration/', register, name='registration'),
     path('authorization', authorize, name='authorization'),
