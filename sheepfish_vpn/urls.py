@@ -22,8 +22,8 @@ from authorization.views import register, authorize, log_out
 
 import re
 
-localhost_regex = re.compile('(((http[s]{0,1})|(ftp[s]{0,1})):\/\/){0,1}'
-                             '(((localhost)|(127.0.0.1)|((0\.){3}0))):'
+localhost_port_regex = re.compile('(((http[s]{0,1})|(ftp[s]{0,1}))(:\/\/)){0,1}'
+                             '(?:(?:(localhost)|(127\.0\.0.1)|((?:0\.){3}0))):'
                              '(65535|6553[0-4]|655[0-2]\d|65[0-4]\d{1,2}|6[0-4]\d{1,3}|[0-5]\d{1,4}|\d{1,4})')
 
 ending_regex = re.compile('\/{0,1}')
@@ -33,7 +33,7 @@ on_vpn_site_visit_url = 'vpnsite/site/'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpnsite/', vpnsite, name='vpnsite'),
-    re_path(r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_regex.pattern, ending_regex.pattern), site),
+    re_path(r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_port_regex.pattern, ending_regex.pattern), site),
     path('vpnsite/site/<path:site_url>', external_site),
     path('addsite', add_site, name='addsite'),
     path('registration/', register, name='registration'),
