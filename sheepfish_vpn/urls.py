@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from vpnsite.views import vpnsite, add_site, site, external_site
+from vpnsite.views import vpnsite, add_site, internal_site, external_site
 from authorization.views import register, authorize, log_out
 
 import re
@@ -33,7 +33,7 @@ on_vpn_site_visit_url = 'vpnsite/site/'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpnsite/', vpnsite, name='vpnsite'),
-    re_path(r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_port_regex.pattern, ending_regex.pattern), site),
+    re_path(r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_port_regex.pattern, ending_regex.pattern), internal_site),
     path('vpnsite/site/<path:site_url>', external_site),
     path('addsite', add_site, name='addsite'),
     path('registration/', register, name='registration'),

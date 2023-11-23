@@ -38,7 +38,7 @@ def add_site(request):
 
 @pass_pure_site_url
 @statistics_control
-def site(request, site_url):
+def internal_site(request, site_url):
     response = requests.get(site_url)
 
     http_response = HttpResponse(
