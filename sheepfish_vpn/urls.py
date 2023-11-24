@@ -28,15 +28,17 @@ localhost_port_regex = re.compile('(((http[s]{0,1})|(ftp[s]{0,1}))(:\/\/)){0,1}'
 
 ending_regex = re.compile('\/{0,1}')
 
+internal_site_url_regex = r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_port_regex.pattern, ending_regex.pattern)
+
 on_vpn_site_visit_url = 'vpnsite/site/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpnsite/', vpnsite, name='vpnsite'),
-    re_path(r'^vpnsite\/site\/{}\/.+{}$'.format(localhost_port_regex.pattern, ending_regex.pattern), internal_site),
+    re_path(internal_site_url_regex, internal_site),
     path('vpnsite/site/<path:site_url>', external_site),
     path('addsite', add_site, name='addsite'),
     path('registration/', register, name='registration'),
     path('authorization', authorize, name='authorization'),
-    path('logout', log_out, name='logout')
+    path('logout', log_out, name='logout'),
 ]
