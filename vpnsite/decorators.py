@@ -2,20 +2,6 @@ import sys
 from functools import wraps
 from vpnsite.models import Statistics, Site
 
-from sheepfish_vpn import urls
-
-
-def pass_pure_site_url(view):
-
-    @wraps(view)
-    def wrap(request, *args, **kwargs):
-        path = request.path
-        site_url = path.replace(urls.on_vpn_site_visit_url, "", 1).replace("/", "", 1)
-
-        return view(request, site_url, *args, **kwargs)
-
-    return wrap
-
 
 def statistics_control(view):
 
