@@ -1,28 +1,42 @@
 import sys
 from functools import wraps
-from vpnsite.models import Statistics, Site, ControlledSite
+from vpnsite.models import Statistics, Site, TrackedSite
 from vpnsite.infrastructure.enums import StatisticsControlStatus
+
+from sheepfish_vpn import urls
+
+import re
+
+
+def site_tracking(view):
+    @wraps(view)
+    def wrap(request, *args, **kwargs):
+        user = request.user
+        tracked_site, __ = TrackedSite.objects.get_or_create(user=user)
+        try:  # site block
+            site = Site.objects.get(url=kwargs['site_url'])
+            tracked_site.site = site
+
+        except Exception:  # resource block
+            site = tracked_site.site
+
+        tracked_site.save()
+
+        return view(request, site, *args, **kwargs)
+
+    return wrap
 
 
 def statistics_control(view):
 
     @wraps(view)
-    def wrap(request, *args, **kwargs):
-        user = request.user
-        controlled_site, __ = ControlledSite.objects.get_or_create(user=user)
-
-        try: #site block
+    def wrap(request, site, *args, **kwargs):
+        try:
+            kwargs['site_url']
             status = StatisticsControlStatus.SiteControlling
 
-            site = Site.objects.get(url=kwargs['site_url'])
-            controlled_site.site = site
-
-        except Exception: #resource block
+        except Exception:
             status = StatisticsControlStatus.ResourceControlling
-
-            site = controlled_site.site
-
-        controlled_site.save()
 
         statistics = Statistics.objects.get(site=site)
         match status:
@@ -30,7 +44,7 @@ def statistics_control(view):
                 statistics.transitions += 1
         statistics.volume += sys.getsizeof(request)
 
-        response = view(request, *args, **kwargs)
+        response = view(request, site, *args, **kwargs)
 
         statistics.volume += sys.getsizeof(response)
 
@@ -39,4 +53,3 @@ def statistics_control(view):
         return response
 
     return wrap
-

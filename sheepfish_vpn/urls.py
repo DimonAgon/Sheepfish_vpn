@@ -22,9 +22,10 @@ from authorization.views import register, authorize, log_out
 
 import re
 
-localhost_port_regex = re.compile('(((http[s]{0,1})|(ftp[s]{0,1}))(:\/\/)){0,1}'
-                             '(?:(?:(localhost)|(127\.0\.0.1)|((?:0\.){3}0))):'
-                             '(65535|6553[0-4]|655[0-2]\d|65[0-4]\d{1,2}|6[0-4]\d{1,3}|[0-5]\d{1,4}|\d{1,4})')
+localhost_port_regex = re.compile('(?:((?:http[s]{0,1})|(?:ftp[s]{0,1}))(:\/\/)){0,1}'
+                                  '(?:(?:(localhost)|(127\.0\.0.1)|((?:0\.){3}0)))'
+                                  '(:)'
+                                  '(65535|6553[0-4]|655[0-2]\d|65[0-4]\d{1,2}|6[0-4]\d{1,3}|[0-5]\d{1,4}|\d{1,4})')
 
 ending_regex = re.compile('\/{0,1}')
 

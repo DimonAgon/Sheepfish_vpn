@@ -20,5 +20,5 @@ class Statistics(BaseUserData):
     volume = models.FloatField(verbose_name="data volume", default=0)
 
 
-class ControlledSite(BaseUserData):
+class TrackedSite(BaseUserData):
     site = models.ForeignKey(Site, null=True, blank=True, on_delete=models.SET_NULL)

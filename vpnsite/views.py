@@ -5,11 +5,13 @@ from django.contrib.auth.models import User
 from vpnsite.models import Statistics, Site
 from vpnsite.forms import AddSiteForm
 from authorization.decorators import redirect_unauthorized_users
-from vpnsite.decorators import statistics_control
+from vpnsite.decorators import statistics_control, site_tracking
 
 import requests
 from django.http import HttpResponse
 from sheepfish_vpn import urls
+
+import re
 
 
 @redirect_unauthorized_users
@@ -46,20 +48,33 @@ def convert_response_to_http_resp(response):
 
     return http_response
 
+@site_tracking
 @statistics_control
-def internal_site(request, *args, **kwargs):
+def internal_site(request, site, *args, **kwargs):
     site_url = kwargs['site_url']
     response = requests.get(site_url)
 
     return convert_response_to_http_resp(response)
 
+def recover_resource_relative_path_with_root(site, resource_url):
+    if re.match('\/', resource_url) or not re.match(urls.localhost_port_regex, resource_url): #resource path is relative
+        root_url = ''.join(re.findall(urls.localhost_port_regex, site.url)[-1])
+        recovered_resource_url = f"{root_url}/{resource_url}"
+        return recovered_resource_url
 
+    else:
+        return resource_url
+
+
+@site_tracking
 @statistics_control
-def external_resource(request, *args, **kwargs):
+def external_resource(request, site, *args, **kwargs):
     resource_url = kwargs['resource_url']
 
+    recovered_url = recover_resource_relative_path_with_root(site, resource_url)
+
     response = requests.request(method=request.method  ,
-                                url=resource_url       ,
+                                url=recovered_url      ,
                                 params=request.GET     ,
                                 data=request.POST      ,
                                 headers=request.headers,
