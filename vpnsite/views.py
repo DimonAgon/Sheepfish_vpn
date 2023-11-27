@@ -47,12 +47,17 @@ def convert_response_to_http_resp(response):
     return http_response
 
 @statistics_control
-def internal_site(request, site_url):
-    response = request.get(site_url)
+def internal_site(request, *args, **kwargs):
+    site_url = kwargs['site_url']
+    response = requests.get(site_url)
 
     return convert_response_to_http_resp(response)
 
-def external_resource(request, resource_url):
+
+@statistics_control
+def external_resource(request, *args, **kwargs):
+    resource_url = kwargs['resource_url']
+
     response = requests.request(method=request.method  ,
                                 url=resource_url       ,
                                 params=request.GET     ,

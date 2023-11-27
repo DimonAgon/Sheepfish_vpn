@@ -18,3 +18,7 @@ class Statistics(BaseUserData):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     transitions = models.IntegerField(verbose_name="site transitions", default=0)
     volume = models.FloatField(verbose_name="data volume", default=0)
+
+
+class ControlledSite(BaseUserData):
+    site = models.ForeignKey(Site, null=True, blank=True, on_delete=models.SET_NULL)
