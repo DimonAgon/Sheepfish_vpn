@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from vpnsite.views import vpnsite, add_site, internal_site, external_site
+from vpnsite.views import vpnsite, add_site, internal_site, external_site, external_resource
 from authorization.views import register, authorize, log_out
 
 import re
@@ -41,4 +41,6 @@ urlpatterns = [
     path('registration/', register, name='registration'),
     path('authorization', authorize, name='authorization'),
     path('logout', log_out, name='logout'),
+
+    path('<path:resource_url>', external_resource)
 ]

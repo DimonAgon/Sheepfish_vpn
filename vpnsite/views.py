@@ -9,6 +9,7 @@ from vpnsite.decorators import statistics_control
 
 import requests
 from django.http import HttpResponse
+from sheepfish_vpn import urls
 
 
 @redirect_unauthorized_users
@@ -36,10 +37,7 @@ def add_site(request):
         return render(request, 'add_site.html', context={'form': form})
 
 
-@statistics_control
-def internal_site(request, site_url):
-    response = requests.get(site_url)
-
+def convert_response_to_http_resp(response):
     http_response = HttpResponse(
         content=response.content,
         status=response.status_code,
@@ -47,6 +45,27 @@ def internal_site(request, site_url):
     )
 
     return http_response
+
+@statistics_control
+def internal_site(request, site_url):
+    response = request.get(site_url)
+
+    return convert_response_to_http_resp(response)
+
+def external_resource(request, resource_url):
+    response = requests.request(method=request.method  ,
+                                url=resource_url       ,
+                                params=request.GET     ,
+                                data=request.POST      ,
+                                headers=request.headers,
+                                )
+
+    http_response = convert_response_to_http_resp(response)
+
+    substitute_response = http_response
+    substitute_response.url = f"{urls.on_vpn_site_visit_url}{resource_url}"
+
+    return substitute_response
 
 
 def external_site(request, site_url):
