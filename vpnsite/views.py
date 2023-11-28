@@ -13,6 +13,10 @@ from sheepfish_vpn import urls
 
 import re
 
+from bs4 import BeautifulSoup
+
+from django.http import HttpResponse
+
 
 @redirect_unauthorized_users
 def vpnsite(request):
@@ -48,22 +52,52 @@ def convert_response_to_http_resp(response):
 
     return http_response
 
-@site_tracking
-@statistics_control
-def internal_site(request, site, *args, **kwargs):
-    site_url = kwargs['site_url']
-    response = requests.get(site_url)
-
-    return convert_response_to_http_resp(response)
 
 def recover_resource_relative_path_with_root(site, resource_url):
-    if re.match('\/', resource_url) or not re.match(urls.localhost_port_regex, resource_url): #resource path is relative
+    if re.match('\/', resource_url) or not re.match(r'(http[s]{0,1})|(ftp[s]{0,1})(:\/\/)', resource_url):     # resource path is relative
+
         root_url = ''.join(re.findall(urls.localhost_port_regex, site.url)[-1])
         recovered_resource_url = f"{root_url}/{resource_url}"
         return recovered_resource_url
 
     else:
         return resource_url
+
+def swap_external_css_to_internal(text, site):
+    if text:
+        internal_css_text = text
+        souped = BeautifulSoup(text, 'html.parser')
+        css = souped.find_all('link', rel="stylesheet")
+        for tag_object in css:
+            href = tag_object['href']
+            resource_fullpath = recover_resource_relative_path_with_root(site, href)
+            css_unit_response = requests.get(resource_fullpath)
+            css_unit_text = css_unit_response.text
+            try:
+                to_swap = re.search(r'<link.*href=[\'\"]{}[\'\"].*>'.format(href), internal_css_text).group(0)
+                internal_css_text = internal_css_text.replace(to_swap, f'<style>{css_unit_text}</style>')
+
+            except Exception:
+                continue
+
+        return internal_css_text
+
+    else:
+        return text
+
+@site_tracking
+@statistics_control
+def internal_site(request, site, *args, **kwargs):
+    site_url = kwargs['site_url']
+    response = requests.get(site_url)
+    http_resp = convert_response_to_http_resp(response)
+
+    text = response.text
+    inline_css_text = swap_external_css_to_internal(text, site)
+    inline_css_http_resp = http_resp
+    inline_css_http_resp.content = inline_css_text
+
+    return inline_css_http_resp
 
 
 @site_tracking
@@ -82,7 +116,12 @@ def external_resource(request, site, *args, **kwargs):
 
     http_response = convert_response_to_http_resp(response)
 
-    substitute_response = http_response
+    text = response.text
+    inline_css_text = swap_external_css_to_internal(text, site)
+    inline_css_http_resp = http_response
+    inline_css_http_resp.content = inline_css_text
+
+    substitute_response = inline_css_http_resp
     substitute_response.url = f"{urls.on_vpn_site_visit_url}{resource_url}"
 
     return substitute_response
