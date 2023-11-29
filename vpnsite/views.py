@@ -15,8 +15,6 @@ import re
 
 from bs4 import BeautifulSoup
 
-from django.http import HttpResponse
-
 
 @redirect_unauthorized_users
 def vpnsite(request):
