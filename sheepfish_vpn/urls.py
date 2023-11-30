@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from vpnsite.views import vpnsite, add_site, internal_site, external_site, external_resource
+from vpnsite.views import vpnsite, add_site, internal_resource, external_site
 from authorization.views import register, authorize, log_out
 
 import re
@@ -29,19 +29,17 @@ localhost_port_regex = re.compile('(?:((?:http[s]{0,1})|(?:ftp[s]{0,1}))(:\/\/))
 
 ending_regex = re.compile('\/{0,1}')
 
-internal_site_url = r'^vpnsite\/site\/(?P<site_url>{}\/.+{}$)'.format(localhost_port_regex.pattern, ending_regex.pattern)
+internal_site_url = r'^vpnsite\/site\/(?P<resource_url>{}\/.+{}$)'.format(localhost_port_regex.pattern, ending_regex.pattern)
 
-on_vpn_site_visit_url = 'vpnsite/site/'
+on_vpn_site_visit_url = 'http://127.0.0.1:8082/vpnsite/site/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpnsite/', vpnsite, name='vpnsite'),
-    re_path(internal_site_url, internal_site),
+    re_path(internal_site_url, internal_resource),
     path('vpnsite/site/<path:site_url>', external_site),
     path('addsite', add_site, name='addsite'),
     path('registration/', register, name='registration'),
     path('authorization', authorize, name='authorization'),
     path('logout', log_out, name='logout'),
-
-    path('<path:resource_url>', external_resource)
 ]
