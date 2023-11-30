@@ -10,19 +10,19 @@ import re
 
 def site_tracking(view):
     @wraps(view)
-    def wrap(request, *args, **kwargs):
+    def wrap(request, resource_url, *args, **kwargs):
         user = request.user
         tracked_site, __ = TrackedSite.objects.get_or_create(user=user)
         try:  # site block
-            site = Site.objects.get(url=kwargs['site_url'])
+            site = Site.objects.get(url=resource_url)
             tracked_site.site = site
-
+                                 #TODO: undefined sites should not be considered as a resource of the tracked site
         except Exception:  # resource block
             site = tracked_site.site
 
         tracked_site.save()
 
-        return view(request, site, *args, **kwargs)
+        return view(request, resource_url, site, *args, **kwargs)
 
     return wrap
 
@@ -30,9 +30,9 @@ def site_tracking(view):
 def statistics_control(view):
 
     @wraps(view)
-    def wrap(request, site, *args, **kwargs):
+    def wrap(request, resource_url, site, *args, **kwargs):
         try:
-            kwargs['site_url']
+            Site.objects.get(url=resource_url)
             status = StatisticsControlStatus.SiteControlling
 
         except Exception:
@@ -44,7 +44,7 @@ def statistics_control(view):
                 statistics.transitions += 1
         statistics.volume += sys.getsizeof(request)
 
-        response = view(request, site, *args, **kwargs)
+        response = view(request, resource_url, site, *args, **kwargs)
 
         statistics.volume += sys.getsizeof(response)
 
