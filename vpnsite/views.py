@@ -81,7 +81,7 @@ class TextPathManipulator:
         self.manipulated_tag_objects: ResultSet = self.manipulated_souped.find_all()
         self.is_manipulated: bool = False
 
-    def manipulate_all_paths(self, path_manipulation_funtion, *args, **kwargs) -> str:
+    def manipulate_all_paths(self, path_manipulation_funtion, *args, **kwargs):
         if not self.is_manipulated:
             self.is_manipulated = True
 
