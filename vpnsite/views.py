@@ -106,11 +106,11 @@ def internal_resource(request, resource_url, site, *args, **kwargs):
     root_url = get_root_from_internal_url(resource_url)
     recovered_url = recover_resource_relative_path_with_root(resource_url, site)
 
-    response = requests.request(method=request.method  ,
-                                url=recovered_url      ,
-                                params=request.GET     ,
-                                data=request.POST      ,
-                                headers=request.headers,
+    response = requests.request(method=request.method        ,
+                                url=recovered_url            ,
+                                params=request.content_params,
+                                data=request.body            ,
+                                headers=request.headers      ,
                                 )
     http_response = convert_response_to_http_resp(response)
 
