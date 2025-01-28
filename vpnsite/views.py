@@ -115,14 +115,17 @@ def internal_resource(request, resource_url, site, *args, **kwargs):
     http_response = convert_response_to_http_resp(response)
 
     text = response.text
-    text_path_manipulator = TextPathManipulator(text)
-    text_path_manipulator.manipulate_all_paths(recover_resource_relative_path_with_root, root_url=root_url)
-    text_path_manipulator.manipulate_all_paths(substitute_resource_path)
-    path_recovered_path_substitute_text = text_path_manipulator.manipulated_text
-    path_recovered_path_substitute_response = http_response
-    path_recovered_path_substitute_response.content = path_recovered_path_substitute_text
+    if re.match(r'(?:<.+>(?:\s+)?)+', text):
+        text_path_manipulator = TextPathManipulator(text)
+        text_path_manipulator.manipulate_all_paths(recover_resource_relative_path_with_root, root_url=root_url)
+        text_path_manipulator.manipulate_all_paths(substitute_resource_path)
+        path_recovered_path_substitute_text = text_path_manipulator.manipulated_text
+        path_recovered_path_substitute_response = http_response
+        path_recovered_path_substitute_response.content = path_recovered_path_substitute_text
 
-    return path_recovered_path_substitute_response
+        return path_recovered_path_substitute_response
+
+    return http_response
 
 
 def external_site(request, site_url):
